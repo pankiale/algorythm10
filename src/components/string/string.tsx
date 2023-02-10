@@ -59,6 +59,7 @@ export const StringComponent: React.FC = () => {
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const input = e.currentTarget.elements.item(0) as HTMLInputElement;
+        if (input.value.length === 0) return alert('Введите текст');
         createArrayForSort(input.value);
         setIsLoader(true);
         setIndex({...index, end: input.value.length -1});
