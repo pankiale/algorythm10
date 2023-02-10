@@ -4,15 +4,14 @@ import styles from "./fibonacci.module.css";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
-import {pause} from "../../utils";
 
 export const FibonacciPage: React.FC = () => {
 
   const [number, setNumber] = useState<number[]>([]);
+  const [index, setIndex] = useState(0);
   const [isLoader, setIsLoader] = useState(false);
   const [array, setArray] = useState<number[]>([]);
-console.log(number)
-  console.log(array)
+
   const fib = (n: number): number[] => {
     let arr: number[] = [0,1];
     if (n === 0) return [0];
@@ -21,28 +20,42 @@ console.log(number)
     }
     return arr;
   }
+
+  const clearForRerender = () => {
+    setArray(() => {
+      return [];
+    });
+    setIndex(() => {
+      return 0;
+    });
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const value = Number(((e.currentTarget.elements.item(0) as HTMLInputElement)).value);
-      setNumber(fib(value));
+      setNumber(oldValue => {const newValue = [...oldValue]; return fib(value)});
       setIsLoader(true);
-      plotArray(number);
+      clearForRerender();
   }
 
-  const plotArray = async (input: number[]) => {
-    for (let i = 0; i < input.length; i++) {
-      setArray([1,2,3]
-      //     oldValue =>  {
-      //   const newValue = [...oldValue];
-      //   console.log(newValue)
-      //   newValue[i] = input[i];
-      //   return newValue;
-      // }
-      );
-      console.log(array)
-      await pause(500);
+  useEffect(()=> {
+    if (number.length > 0) {
+
+      const timeout = setTimeout(() => {
+        setArray(
+            oldValue => {
+              const newValue = [...oldValue];
+              newValue.push(number[index]);
+              setIndex(index +1);
+              return newValue;
+            });
+
+      }, 1000)
+      if (index === number.length) {
+        setIsLoader(false);
+        return clearTimeout(timeout)};
     };
-  }
+  }, [number, array]);
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
@@ -52,7 +65,7 @@ console.log(number)
         <Button text={'Рассчитать'} type={"submit"} extraClass={styles.button} isLoader={isLoader}/>
       </form>
       <div className={styles.textbox}>
-        {array.map((item, index) =>
+        {array && array.map((item, index) =>
             <Circle letter={String(item)} index={index} key={index}/>
         )}
       </div>
