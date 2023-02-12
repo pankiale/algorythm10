@@ -33,9 +33,9 @@ export const FibonacciPage: React.FC = () => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const value = Number(((e.currentTarget.elements.item(0) as HTMLInputElement)).value);
-      setNumber(oldValue => {const newValue = [...oldValue]; return fib(value)});
-      setIsLoader(true);
-      clearForRerender();
+    setNumber(oldValue => {const newValue = [...oldValue]; return fib(value)});
+    setIsLoader(true);
+    clearForRerender();
   }
 
   useEffect(()=> {
