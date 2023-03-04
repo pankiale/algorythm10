@@ -1,7 +1,6 @@
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
 
 interface IStack<T> {
+    container: T[]
     push: (item: T) => void;
     pop: () => void;
     peak: () => T | null;
@@ -10,7 +9,13 @@ interface IStack<T> {
 }
 
 export class Stack<T> implements IStack<T> {
-    private container: T[] = [];
+
+    container: T[] = []
+
+    constructor(initialStack?: T[]) {
+        this.container = initialStack?? [];
+    }
+
 
     push = (item: T): void => {
         this.container[this.getSize()] = item;
