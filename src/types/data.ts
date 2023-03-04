@@ -5,6 +5,12 @@ export type TText = {
     state: ElementStates;
 };
 
+export type TNumber = {
+    item: number;
+    state: ElementStates;
+};
+
+
 export type TIndex = {
     start: number;
     end: number;
