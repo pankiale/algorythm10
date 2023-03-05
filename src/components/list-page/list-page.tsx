@@ -19,7 +19,7 @@ export const ListPage: React.FC = () => {
                 {list.print().map((item, index) => <React.Fragment key={index}><Circle
                         head={item.isHead ? 'head' : null} tail={item.isTail ? 'tail' : null} index={index}
                         letter={item.element.toString()}
-                        state={ElementStates.Default}/> <ArrowIcon/>
+                        state={ElementStates.Default}/> {!item.isTail && <ArrowIcon/>}
                     </React.Fragment>
                 )}
             </div>
