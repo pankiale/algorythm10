@@ -1,0 +1,22 @@
+.box {
+	display: flex;
+	gap: 12px;
+	max-width: 829px;
+	margin: auto;
+}
+.button {
+	width: 178px;
+	box-sizing: border-box;
+}
+
+.button_clear {
+	margin-left: 68px;
+}
+
+.textbox {
+	display: flex;
+	gap: 12px;
+	margin: 120px auto;
+	justify-content: center;
+	align-items: center;
+}
