@@ -24,15 +24,13 @@ export const StackPage: React.FC = () => {
         if (!value.length) return alert("Введите текст");
         setIsLoader(true);
 
-        const newStack = new Stack<TText>([...stack.returnArray()]);
-        newStack.push({letter: value, state: ElementStates.Changing});
-        setStack(newStack);
+        stack.push({letter: value, state: ElementStates.Changing});
+        setStack(stack);
 
         setTimeout(() => {
-            const updatedStack = new Stack<TText>([...newStack.returnArray()]);
-            const topElement = updatedStack.peak()
+            const topElement = stack.peak()
             if (topElement?.state) topElement.state = ElementStates.Default;
-            setStack(updatedStack)
+            setStack(stack)
             setValue("");
             setIsLoader(false);
         }, 500);
@@ -40,22 +38,19 @@ export const StackPage: React.FC = () => {
 
     const onDelete = () => {
         setIsLoader(true);
-        const newStack = new Stack<TText>([...stack.returnArray()]);
-        const topElement = newStack.peak()
+        const topElement = stack.peak()
         if (topElement?.state) topElement.state = ElementStates.Changing;
-        setStack(newStack);
+        setStack(stack);
 
         setTimeout(() => {
-            const updatedStack = new Stack<TText>([...newStack.returnArray()]);
-            updatedStack.pop();
-            setStack(updatedStack);
+            stack.pop();
+            setStack(stack);
             setIsLoader(false);
         }, 500);
     }
 
     const onClear = () => {
-        const newStack = new Stack<TText>();
-        setStack(newStack);
+        setStack(new Stack());
     }
 
     return (
@@ -63,11 +58,11 @@ export const StackPage: React.FC = () => {
             <form className={styles.box} onSubmit={onSubmit}>
                 <Input maxLength={4} name={'text'} value={value} isLimitText={true} onChange={onChange}/>
                 <Button text={'Добавить'} type={"submit"} extraClass={styles.button} isLoader={isLoader}
-                        disabled={!value.length ? true : false}/>
+                        disabled={!value.length}/>
                 <Button text={'Удалить'} onClick={onDelete} extraClass={styles.button} isLoader={isLoader}
-                        disabled={stack.getSize() === 0 ? true : false}/>
+                        disabled={stack.getSize() === 0}/>
                 <Button text={'Очистить'} onClick={onClear} extraClass={`${styles.button} ${styles.button_clear}`}
-                        isLoader={isLoader} disabled={stack.getSize() === 0 ? true : false}/>
+                        isLoader={isLoader} disabled={stack.getSize() === 0}/>
             </form>
             <div className={styles.textbox}>
                 {stack.returnArray().map((item, index) => <Circle
