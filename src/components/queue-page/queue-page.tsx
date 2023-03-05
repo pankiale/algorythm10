@@ -63,19 +63,19 @@ export const QueuePage: React.FC = () => {
             <form className={styles.box} onSubmit={onSubmit}>
                 <Input maxLength={4} name={'text'} value={value} isLimitText={true} onChange={onChange}/>
                 <Button text={'Добавить'} type={"submit"} extraClass={styles.button} isLoader={isLoader}
-                        disabled={!value.length || queue.getTail() === 6}/>
+                        disabled={!value.length || queue.getTail() === 7}/>
                 <Button text={'Удалить'} onClick={onDelete} extraClass={styles.button} isLoader={isLoader}
-                        disabled={queue.size === 0}/>
+                        disabled={queue.length === 0}/>
                 <Button text={'Очистить'} onClick={onClear} extraClass={`${styles.button} ${styles.button_clear}`}
-                        isLoader={isLoader} disabled={queue.size === 0}/>
+                        isLoader={isLoader} disabled={queue.length === 0}/>
             </form>
             <div className={styles.textbox}>
                 {Array.from({length: queue.size}, (_, index) => (
                     <Circle
                         key={index}
                         index={index}
-                        head={index === queue.getHead() ? "head" : null}
-                        tail={index === queue.getTail() ? "tail" : null}
+                        head={queue.length>0? index === queue.getHead() ? "head" : null: null}
+                        tail={queue.length>0? index === queue.getTail()-1 ? "tail" : null : null}
                         letter={queue.getContainer()[index]?.letter ?? " "}
                         state={queue.getContainer()[index]?.state ?? ElementStates.Default}
                     />
