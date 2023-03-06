@@ -1,3 +1,5 @@
+import {ElementStates} from "../types/element-states";
+
 class ListNode<T> {
     data: T;
     next: ListNode<T> | null;
@@ -28,15 +30,8 @@ export class LinkedList<T> {
     // Add element to the end of the list
     add(data: T): void {
         const newNode = new ListNode(data);
-        if (this.head === null) {
-            this.head = newNode;
-        } else {
-            let current = this.head;
-            while (current.next !== null) {
-                current = current.next;
-            }
-            current.next = newNode;
-        }
+        newNode.next = this.head;
+        this.head = newNode;
         this.size++;
     }
 
@@ -159,13 +154,14 @@ export class LinkedList<T> {
         return this.size;
     }
 
-    public print(): { element: T, index: number, isHead: boolean, isTail: boolean }[] {
+    public print(): { element: T, elementState: ElementStates, index: number, isHead: boolean, isTail: boolean }[] {
         let current = this.head;
-        const elements: { element: T, index: number, isHead: boolean, isTail: boolean }[] = [];
+        const elements: { element: T, elementState: ElementStates, index: number, isHead: boolean, isTail: boolean }[] = [];
         let index = 0;
         while (current !== null) {
             elements.push({
                 element: current.data,
+                elementState: ElementStates.Default,
                 index,
                 isHead: current === this.head,
                 isTail: current.next === null
