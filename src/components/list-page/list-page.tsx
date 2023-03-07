@@ -126,7 +126,7 @@ export const ListPage: React.FC = () => {
     const onDeleteFromTail = () => {
         setIsLoader(true);
         setDeleteItem(true)
-        setValueForDelete(visArray[visArray.length - 1].element!.toString())
+        setValueForDelete(visArray[visArray.length-1].element!.toString())
         visArray[visArray.length - 1].element = null
         setTargetIndex(visArray.length - 1)
         list.removeFrom(list.size - 1);
@@ -136,7 +136,7 @@ export const ListPage: React.FC = () => {
             setVisArray(temp);
             setIsLoader(false);
             setDeleteItem(false);
-        }, 500);
+        }, 1000);
     }
 
     const onDeleteByIndex = () => {
@@ -149,7 +149,7 @@ export const ListPage: React.FC = () => {
                 if (newIndex <= +indexValue) {
                     visArray[newIndex-1].elementState = ElementStates.Changing;
                 }
-                return newIndex;
+                return newIndex>+indexValue?+indexValue:newIndex;
             });
         }, 1000);
 
@@ -261,7 +261,7 @@ export const ListPage: React.FC = () => {
                 )}
                 {deleteItem && visArray.map((item, index) => <React.Fragment key={index}><Circle
                         head={item.isHead ? 'head' : null}
-                        tail={index === targetIndex-1 ?
+                        tail={index === targetIndex ?
                             <Circle isSmall={true} letter={valueForDelete} state={ElementStates.Changing}/> : null}
                         index={index}
                         letter={item.element?.toString()}
