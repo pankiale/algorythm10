@@ -13,8 +13,8 @@ export const ListPage: React.FC = () => {
     const [list, setList] = useState(LinkedList.fromArray([0, 32, 8, 1]));
     const [visArray, setVisArray] = useState<{ element: number | null, elementState: ElementStates, index: number, isHead: boolean, isTail: boolean }[]>([]);
     const [value, setValue] = useState('');
+    const [valueForDelete, setValueForDelete] = useState('');
     const [indexValue, setIndexValue] = useState('');
-    const [index, setIndex] = useState(0);
     const [isLoader, setIsLoader] = useState(false);
     const [targetIndex, setTargetIndex] = useState(0);
 
@@ -46,6 +46,7 @@ export const ListPage: React.FC = () => {
             setTimeout(() => {
                 const temp = list.print();
                 setVisArray(temp);
+                setValue('');
             }, 500)
         }, 500);
     }
@@ -78,6 +79,8 @@ export const ListPage: React.FC = () => {
             setTimeout(()=>{
                 const temp = list.print()
                 setVisArray(temp)
+                setValue('');
+                setIndexValue('')
             },1000)
 
             setIsLoader(false);
@@ -101,13 +104,14 @@ export const ListPage: React.FC = () => {
             setTimeout(() => {
                 const temp = list.print();
                 setVisArray(temp);
+                setValue('');
             }, 500)
         }, 500);
     }
     const onDeleteFromHead = () => {
         setIsLoader(true);
         setDeleteItem(true)
-        setValue(visArray[0].element!.toString())
+        setValueForDelete(visArray[0].element!.toString())
         visArray[0].element = null
         setTargetIndex(0)
         list.removeFrom(0);
@@ -122,7 +126,7 @@ export const ListPage: React.FC = () => {
     const onDeleteFromTail = () => {
         setIsLoader(true);
         setDeleteItem(true)
-        setValue(visArray[visArray.length - 1].element!.toString())
+        setValueForDelete(visArray[visArray.length - 1].element!.toString())
         visArray[visArray.length - 1].element = null
         setTargetIndex(visArray.length - 1)
         list.removeFrom(list.size - 1);
@@ -134,9 +138,42 @@ export const ListPage: React.FC = () => {
             setDeleteItem(false);
         }, 500);
     }
-    const onDelebteByIndex = () => {
 
-    }
+    const onDeleteByIndex = () => {
+        setIsLoader(true);
+        setTargetIndex(0);
+
+        const intervalId = setInterval(() => {
+            setTargetIndex(prevIndex => {
+                const newIndex = prevIndex + 1;
+                if (newIndex <= +indexValue) {
+                    visArray[newIndex-1].elementState = ElementStates.Changing;
+                }
+                return newIndex;
+            });
+        }, 1000);
+
+        setTimeout(() => {
+            clearInterval(intervalId);
+            setValueForDelete(visArray[+indexValue].element!.toString())
+            setDeleteItem(true);
+
+            visArray[+indexValue].element = null
+            list.removeFrom(+indexValue);
+            setList(list);
+
+            setTimeout(()=>{
+                const temp = list.print()
+                setVisArray(temp)
+                setDeleteItem(false)
+                setIndexValue('')
+            },1000)
+
+            setIsLoader(false);
+
+        }, (+indexValue + 1) * 1000);
+    };
+
 
     useEffect(() => {
             const newArray = list.print()
@@ -166,7 +203,7 @@ export const ListPage: React.FC = () => {
                     onClick={onAddToTail}
                     extraClass={styles.button}
                     isLoader={isLoader}
-                    disabled={list.print().length === 0}/>
+                    disabled={!value.length}/>
                 <Button
                     text={'Удалить из head'}
                     onClick={onDeleteFromHead}
@@ -187,7 +224,6 @@ export const ListPage: React.FC = () => {
                     min={0}
                     max={list.size-1}
                     isLimitText={true}
-                    disabled={!value.length}
                     value={indexValue}
                     extraClass={styles.input}
                     placeholder={'Введите индекс'}
@@ -197,14 +233,14 @@ export const ListPage: React.FC = () => {
                         onClick={onAddByIndex}
                         extraClass={styles.button_large}
                         isLoader={isLoader}
-                        disabled={!value.length}
+                        disabled={!indexValue.length}
                     />
                     <Button
                         text='Удалить по индексу'
                         extraClass={styles.button_large}
-                        onClick={onDelebteByIndex}
+                        onClick={onDeleteByIndex}
                         isLoader={isLoader}
-                        disabled={!value.length}
+                        disabled={!indexValue.length}
                     />
             </form>
             <div className={styles.textbox}>
@@ -225,8 +261,8 @@ export const ListPage: React.FC = () => {
                 )}
                 {deleteItem && visArray.map((item, index) => <React.Fragment key={index}><Circle
                         head={item.isHead ? 'head' : null}
-                        tail={index === targetIndex ?
-                            <Circle isSmall={true} letter={value} state={ElementStates.Changing}/> : null}
+                        tail={index === targetIndex-1 ?
+                            <Circle isSmall={true} letter={valueForDelete} state={ElementStates.Changing}/> : null}
                         index={index}
                         letter={item.element?.toString()}
                         state={item.elementState}/> {!item.isTail && <ArrowIcon/>}
