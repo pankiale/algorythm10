@@ -2,7 +2,7 @@ export const pause = async (ms: number) => {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-const random = (minLen: number = 3, maxLen: number = 17): number[] => {
+export const random = (minLen: number = 3, maxLen: number = 17): number[] => {
     let arr: number[] = [];
     let arrLength = Math.floor((Math.random())*(maxLen-minLen+1))+minLen;
     let n = 0
