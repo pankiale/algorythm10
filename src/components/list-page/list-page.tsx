@@ -13,6 +13,8 @@ export const ListPage: React.FC = () => {
     const [list, setList] = useState(LinkedList.fromArray([0, 32, 8, 1]));
     const [visArray, setVisArray] = useState<{ element: number | null, elementState: ElementStates, index: number, isHead: boolean, isTail: boolean }[]>([]);
     const [value, setValue] = useState('');
+    const [indexValue, setIndexValue] = useState('');
+    const [index, setIndex] = useState(0);
     const [isLoader, setIsLoader] = useState(false);
     const [targetIndex, setTargetIndex] = useState(0);
 
@@ -20,6 +22,12 @@ export const ListPage: React.FC = () => {
         const value = event.target.value;
         setValue(value);
     }
+
+    const onIndexChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const indexValue = event.target.value;
+        setIndexValue(indexValue);
+    }
+
     const [addItem, setAddItem] = useState(false);
     const [deleteItem, setDeleteItem] = useState(false);
 
@@ -41,6 +49,42 @@ export const ListPage: React.FC = () => {
             }, 500)
         }, 500);
     }
+
+    const onAddByIndex = () => {
+        setIsLoader(true);
+        setTargetIndex(0);
+        setAddItem(true);
+
+        const intervalId = setInterval(() => {
+            setTargetIndex(prevIndex => {
+                const newIndex = prevIndex + 1;
+                if (newIndex <= +indexValue) {
+                    visArray[newIndex-1].elementState = ElementStates.Changing;
+                }
+                return newIndex;
+            });
+        }, 1000);
+
+        setTimeout(() => {
+            clearInterval(intervalId);
+            setAddItem(false);
+
+            list.insertAt(+value, +indexValue);
+            setList(list);
+            const temp = list.print();
+            temp[+indexValue].elementState = ElementStates.Modified;
+            setVisArray(temp);
+
+            setTimeout(()=>{
+                const temp = list.print()
+                setVisArray(temp)
+            },1000)
+
+            setIsLoader(false);
+
+        }, (+indexValue + 1) * 1000);
+    };
+
 
     const onAddToTail = () => {
         setIsLoader(true);
@@ -78,10 +122,10 @@ export const ListPage: React.FC = () => {
     const onDeleteFromTail = () => {
         setIsLoader(true);
         setDeleteItem(true)
-        setValue(visArray[visArray.length-1].element!.toString())
-        visArray[visArray.length-1].element = null
-        setTargetIndex(visArray.length-1)
-        list.removeFrom(list.size-1);
+        setValue(visArray[visArray.length - 1].element!.toString())
+        visArray[visArray.length - 1].element = null
+        setTargetIndex(visArray.length - 1)
+        list.removeFrom(list.size - 1);
         setList(list);
         setTimeout(() => {
             const temp = list.print();
@@ -89,6 +133,9 @@ export const ListPage: React.FC = () => {
             setIsLoader(false);
             setDeleteItem(false);
         }, 500);
+    }
+    const onDelebteByIndex = () => {
+
     }
 
     useEffect(() => {
@@ -100,15 +147,65 @@ export const ListPage: React.FC = () => {
     return (
         <SolutionLayout title="Связный список">
             <form className={styles.box} onSubmit={(e) => e.preventDefault()}>
-                <Input maxLength={4} name={'text'} value={value} isLimitText={true} onChange={onChange}/>
-                <Button text={'Добавить в head'} onClick={onAddToHead} extraClass={styles.button} isLoader={isLoader}
-                        disabled={!value.length}/>
-                <Button text={'Добавить в tail'} onClick={onAddToTail} extraClass={styles.button} isLoader={isLoader}
-                        disabled={list.print().length === 0}/>
-                <Button text={'Удалить из head'} onClick={onDeleteFromHead} extraClass={styles.button}
-                        isLoader={isLoader} disabled={list.print().length === 0}/>
-                <Button text={'Удалить из tail'} onClick={onDeleteFromTail} extraClass={styles.button}
-                        isLoader={isLoader} disabled={list.print().length === 0}/>
+                <Input
+                    maxLength={4}
+                    name={'text'}
+                    value={value}
+                    isLimitText={true}
+                    onChange={onChange}
+                    extraClass={styles.input}
+                />
+                <Button
+                    text={'Добавить в head'}
+                    onClick={onAddToHead}
+                    extraClass={styles.button}
+                    isLoader={isLoader}
+                    disabled={!value.length}/>
+                <Button
+                    text={'Добавить в tail'}
+                    onClick={onAddToTail}
+                    extraClass={styles.button}
+                    isLoader={isLoader}
+                    disabled={list.print().length === 0}/>
+                <Button
+                    text={'Удалить из head'}
+                    onClick={onDeleteFromHead}
+                    extraClass={styles.button}
+                    isLoader={isLoader}
+                    disabled={list.print().length === 0}/>
+                <Button
+                    text={'Удалить из tail'}
+                    onClick={onDeleteFromTail}
+                    extraClass={styles.button}
+                    isLoader={isLoader}
+                    disabled={list.print().length === 0}/>
+            </form>
+            <form className={styles.box} onSubmit={(e) => e.preventDefault()}>
+                <Input
+                    onChange={onIndexChange}
+                    type='number'
+                    min={0}
+                    max={list.size-1}
+                    isLimitText={true}
+                    disabled={!value.length}
+                    value={indexValue}
+                    extraClass={styles.input}
+                    placeholder={'Введите индекс'}
+                />
+                    <Button
+                        text='Добавить по индексу'
+                        onClick={onAddByIndex}
+                        extraClass={styles.button_large}
+                        isLoader={isLoader}
+                        disabled={!value.length}
+                    />
+                    <Button
+                        text='Удалить по индексу'
+                        extraClass={styles.button_large}
+                        onClick={onDelebteByIndex}
+                        isLoader={isLoader}
+                        disabled={!value.length}
+                    />
             </form>
             <div className={styles.textbox}>
                 {!addItem && !deleteItem && visArray.map((item, index) => <React.Fragment key={index}><Circle

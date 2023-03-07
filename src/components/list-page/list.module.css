@@ -1,7 +1,7 @@
 .box {
 	display: flex;
 	gap: 12px;
-	max-width: 829px;
+	max-width: 952px;
 	margin: auto;
 }
 .button {
@@ -9,8 +9,20 @@
 	box-sizing: border-box;
 }
 
+.button_large {
+	width: 362px;
+}
 .button_clear {
 	margin-left: 68px;
+}
+.input {
+	width: 204px;
+}
+
+.wrapper {
+	display: flex;
+	min-width: 736px;
+	gap: 12px;
 }
 
 .textbox {
