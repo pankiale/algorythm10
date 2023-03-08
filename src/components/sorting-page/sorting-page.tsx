@@ -9,6 +9,7 @@ import {Direction} from "../../types/direction";
 import {ElementStates} from "../../types/element-states";
 import {DELAY_IN_MS} from "../../constants/delays";
 import {TNumber} from "../../types/data";
+import {swap} from "./utils";
 
 
 export const SortingPage: React.FC = () => {
@@ -21,11 +22,7 @@ export const SortingPage: React.FC = () => {
     })
     const [isDisabled, setDisabled] = useState<boolean>()
 
-    const swap = (arr: TNumber[], i: number, j: number) => {
-        let temp = arr[i]
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
+
     const getRandomArr = () => {
         setWorkItemArray(random(3, 17)
             .reduce<TNumber[]>((acc, item) => (
