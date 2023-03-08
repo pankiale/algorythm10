@@ -1,0 +1,16 @@
+.box {
+	display: flex;
+	gap: 12px;
+	max-width: 567px;
+	margin: auto;
+}
+.button {
+	width: 178px;
+	box-sizing: border-box;
+}
+.textbox {
+	display: flex;
+	gap: 12px;
+	margin: 120px auto;
+	justify-content: center;
+}
