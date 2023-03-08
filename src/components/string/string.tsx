@@ -6,6 +6,7 @@ import {Button} from "../ui/button/button";
 import {ElementStates} from "../../types/element-states";
 import {Circle} from "../ui/circle/circle";
 import {TIndex, TText} from "../../types/data";
+import {swap} from "./utils";
 
 export const StringComponent: React.FC = () => {
     const [rotatedString, setRotatedString] = useState<TText[]>([]);
@@ -44,8 +45,9 @@ export const StringComponent: React.FC = () => {
                 setTimeout(()=> {
                     setRotatedString(prevString => {
                         const updatedString = [...prevString];
-                        updatedString[index.start] = {letter: updatedString[index.end].letter, state: ElementStates.Modified};
-                        updatedString[index.end] = {letter: prevString[index.start].letter, state: ElementStates.Modified};
+                        swap(updatedString,index);
+                        updatedString[index.start] = {...updatedString[index.start], state: ElementStates.Modified};
+                        updatedString[index.end] = {...updatedString[index.end], state: ElementStates.Modified};
                         return updatedString;
                     })
                 }, 1000)
