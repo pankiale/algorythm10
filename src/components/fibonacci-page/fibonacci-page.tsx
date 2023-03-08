@@ -4,6 +4,7 @@ import styles from "./fibonacci.module.css";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
+import {fib} from "./utils";
 
 export const FibonacciPage: React.FC = () => {
 
@@ -11,15 +12,6 @@ export const FibonacciPage: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [isLoader, setIsLoader] = useState(false);
   const [array, setArray] = useState<number[]>([]);
-
-  const fib = (n: number): number[] => {
-    let arr: number[] = [0,1];
-    if (n === 0) return [0];
-    for (let i = 2; i < n + 1; i++){
-      arr.push(arr[i - 2] + arr[i -1])
-    }
-    return arr;
-  }
 
   const clearForRerender = () => {
     setArray(() => {
