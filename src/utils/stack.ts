@@ -1,6 +1,5 @@
 
 interface IStack<T> {
-    container: T[]
     push: (item: T) => void;
     pop: () => void;
     peak: () => T | null;
@@ -10,7 +9,7 @@ interface IStack<T> {
 
 export class Stack<T> implements IStack<T> {
 
-    container: T[] = []
+    private readonly container: T[] = []
 
     constructor(initialStack?: T[]) {
         this.container = initialStack?? [];

@@ -7,6 +7,7 @@ import {Button} from "../ui/button/button";
 import {TText} from "../../types/data";
 import {ElementStates} from "../../types/element-states";
 import {Circle} from "../ui/circle/circle";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 export const StackPage: React.FC = () => {
 
@@ -33,7 +34,7 @@ export const StackPage: React.FC = () => {
             setStack(stack)
             setValue("");
             setIsLoader(false);
-        }, 500);
+        }, SHORT_DELAY_IN_MS);
     };
 
     const onDelete = () => {
@@ -46,7 +47,7 @@ export const StackPage: React.FC = () => {
             stack.pop();
             setStack(stack);
             setIsLoader(false);
-        }, 500);
+        }, SHORT_DELAY_IN_MS);
     }
 
     const onClear = () => {
@@ -66,7 +67,7 @@ export const StackPage: React.FC = () => {
             </form>
             <div className={styles.textbox}>
                 {stack.returnArray().map((item, index) => <Circle
-                    head={index === stack.container.length - 1 ? 'head' : null} index={index} letter={item.letter}
+                    head={index === stack.getSize() - 1 ? 'head' : null} index={index} letter={item.letter}
                     state={item.state} key={index}/>
                 )}
             </div>

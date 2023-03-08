@@ -7,6 +7,7 @@ import {ElementStates} from "../../types/element-states";
 import {Circle} from "../ui/circle/circle";
 import {TIndex, TText} from "../../types/data";
 import {swap} from "./utils";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
     const [rotatedString, setRotatedString] = useState<TText[]>([]);
@@ -50,10 +51,10 @@ export const StringComponent: React.FC = () => {
                         updatedString[index.end] = {...updatedString[index.end], state: ElementStates.Modified};
                         return updatedString;
                     })
-                }, 1000)
+                }, SHORT_DELAY_IN_MS)
 
                 setIndex({... index, start: index.start + 1, end: index.end -1});
-            }, 1000);
+            }, SHORT_DELAY_IN_MS);
             return () => clearInterval(intervalId);
         }
     }, [rotatedString, index]);

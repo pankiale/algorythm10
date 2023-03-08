@@ -11,8 +11,8 @@ class ListNode<T> {
 }
 
 export class LinkedList<T> {
-    head: ListNode<T> | null;
-    size: number;
+    private head: ListNode<T> | null;
+    private size: number;
 
     constructor() {
         this.head = null;

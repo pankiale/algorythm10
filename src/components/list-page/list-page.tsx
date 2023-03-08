@@ -7,6 +7,7 @@ import {ElementStates} from "../../types/element-states";
 import {ArrowIcon} from "../ui/icons/arrow-icon";
 import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 export const ListPage: React.FC = () => {
 
@@ -47,8 +48,8 @@ export const ListPage: React.FC = () => {
                 const temp = list.print();
                 setVisArray(temp);
                 setValue('');
-            }, 500)
-        }, 500);
+            }, SHORT_DELAY_IN_MS)
+        }, SHORT_DELAY_IN_MS);
     }
 
     const onAddByIndex = () => {
@@ -64,7 +65,7 @@ export const ListPage: React.FC = () => {
                 }
                 return newIndex;
             });
-        }, 1000);
+        }, SHORT_DELAY_IN_MS);
 
         setTimeout(() => {
             clearInterval(intervalId);
@@ -81,18 +82,18 @@ export const ListPage: React.FC = () => {
                 setVisArray(temp)
                 setValue('');
                 setIndexValue('')
-            },1000)
+            },SHORT_DELAY_IN_MS)
 
             setIsLoader(false);
 
-        }, (+indexValue + 1) * 1000);
+        }, (+indexValue + 1) * SHORT_DELAY_IN_MS);
     };
 
 
     const onAddToTail = () => {
         setIsLoader(true);
         setAddItem(true)
-        setTargetIndex(list.size - 1)
+        setTargetIndex(list.getSize() - 1)
         list.addToTail(+value);
         setList(list);
         setTimeout(() => {
@@ -105,8 +106,8 @@ export const ListPage: React.FC = () => {
                 const temp = list.print();
                 setVisArray(temp);
                 setValue('');
-            }, 500)
-        }, 500);
+            }, SHORT_DELAY_IN_MS)
+        }, SHORT_DELAY_IN_MS);
     }
     const onDeleteFromHead = () => {
         setIsLoader(true);
@@ -121,7 +122,7 @@ export const ListPage: React.FC = () => {
             setVisArray(temp);
             setIsLoader(false);
             setDeleteItem(false);
-        }, 500);
+        }, SHORT_DELAY_IN_MS);
     }
     const onDeleteFromTail = () => {
         setIsLoader(true);
@@ -129,14 +130,14 @@ export const ListPage: React.FC = () => {
         setValueForDelete(visArray[visArray.length-1].element!.toString())
         visArray[visArray.length - 1].element = null
         setTargetIndex(visArray.length - 1)
-        list.removeFrom(list.size - 1);
+        list.removeFrom(list.getSize() - 1);
         setList(list);
         setTimeout(() => {
             const temp = list.print();
             setVisArray(temp);
             setIsLoader(false);
             setDeleteItem(false);
-        }, 1000);
+        }, SHORT_DELAY_IN_MS);
     }
 
     const onDeleteByIndex = () => {
@@ -151,7 +152,7 @@ export const ListPage: React.FC = () => {
                 }
                 return newIndex>+indexValue?+indexValue:newIndex;
             });
-        }, 1000);
+        }, SHORT_DELAY_IN_MS);
 
         setTimeout(() => {
             clearInterval(intervalId);
@@ -167,11 +168,11 @@ export const ListPage: React.FC = () => {
                 setVisArray(temp)
                 setDeleteItem(false)
                 setIndexValue('')
-            },1000)
+            },SHORT_DELAY_IN_MS)
 
             setIsLoader(false);
 
-        }, (+indexValue + 1) * 1000);
+        }, (+indexValue + 1) * SHORT_DELAY_IN_MS);
     };
 
 
@@ -222,7 +223,7 @@ export const ListPage: React.FC = () => {
                     onChange={onIndexChange}
                     type='number'
                     min={0}
-                    max={list.size-1}
+                    max={list.getSize()-1}
                     isLimitText={true}
                     value={indexValue}
                     extraClass={styles.input}
