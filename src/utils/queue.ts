@@ -5,11 +5,11 @@ interface IQueue<T> {
 }
 
 export class Queue<T> implements IQueue<T> {
-    public container: (T | null)[] = [];
-    public head = 0;
-    public tail = 0;
-    public readonly size: number = 0;
-    public length: number = 0;
+    private readonly container: (T | null)[] = [];
+    private head = 0;
+    private tail = 0;
+    private readonly size: number = 0;
+    private length: number = 0;
 
     constructor(size: number) {
         this.size = size;
@@ -48,6 +48,8 @@ export class Queue<T> implements IQueue<T> {
     getTail = (): number => this.tail;
 
     getLength = (): number => this.length;
+
+    getSize = (): number => this.size;
 
     getContainer = (): (T | null)[] => this.container;
 }

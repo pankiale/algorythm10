@@ -8,6 +8,7 @@ import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
 import {Queue} from "../../utils/queue";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 export const QueuePage: React.FC = () => {
 
@@ -19,8 +20,6 @@ export const QueuePage: React.FC = () => {
         const value = event.target.value;
         setValue(value);
     }
-
-    console.log(queue)
 
     const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -35,7 +34,7 @@ export const QueuePage: React.FC = () => {
             setQueue(queue)
             setValue("");
             setIsLoader(false);
-        }, 500);
+        }, SHORT_DELAY_IN_MS);
     };
 
 
@@ -49,7 +48,7 @@ export const QueuePage: React.FC = () => {
             queue.dequeue();
             setQueue(queue);
             setIsLoader(false);
-        }, 500);
+        }, SHORT_DELAY_IN_MS);
     }
 
     const onClear = () => {
@@ -65,17 +64,17 @@ export const QueuePage: React.FC = () => {
                 <Button text={'Добавить'} type={"submit"} extraClass={styles.button} isLoader={isLoader}
                         disabled={!value.length || queue.getTail() === 7}/>
                 <Button text={'Удалить'} onClick={onDelete} extraClass={styles.button} isLoader={isLoader}
-                        disabled={queue.length === 0}/>
+                        disabled={queue.getLength() === 0}/>
                 <Button text={'Очистить'} onClick={onClear} extraClass={`${styles.button} ${styles.button_clear}`}
-                        isLoader={isLoader} disabled={queue.length === 0}/>
+                        isLoader={isLoader} disabled={queue.getLength() === 0}/>
             </form>
             <div className={styles.textbox}>
-                {Array.from({length: queue.size}, (_, index) => (
+                {Array.from({length: queue.getSize()}, (_, index) => (
                     <Circle
                         key={index}
                         index={index}
-                        head={queue.length>0? index === queue.getHead() ? "head" : null: null}
-                        tail={queue.length>0? index === queue.getTail()-1 ? "tail" : null : null}
+                        head={queue.getLength()>0? index === queue.getHead() ? "head" : null: null}
+                        tail={queue.getLength()>0? index === queue.getTail()-1 ? "tail" : null : null}
                         letter={queue.getContainer()[index]?.letter ?? " "}
                         state={queue.getContainer()[index]?.state ?? ElementStates.Default}
                     />
