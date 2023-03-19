@@ -1,0 +1,34 @@
+.box {
+	display: flex;
+	gap: 12px;
+	max-width: 952px;
+	margin: auto;
+}
+.button {
+	width: 178px;
+	box-sizing: border-box;
+}
+
+.button_large {
+	width: 362px;
+}
+.button_clear {
+	margin-left: 68px;
+}
+.input {
+	width: 204px;
+}
+
+.wrapper {
+	display: flex;
+	min-width: 736px;
+	gap: 12px;
+}
+
+.textbox {
+	display: flex;
+	gap: 12px;
+	margin: 120px auto;
+	justify-content: center;
+	align-items: center;
+}
