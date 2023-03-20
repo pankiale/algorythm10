@@ -5,13 +5,13 @@ import {Button} from "./button";
 const buttonTextStub = 'Текст кнопки'
 
 describe("button tests", () => {
-    it('button with text', () => {
+    it('button text', () => {
         const tree = renderer
             .create(<Button text={buttonTextStub}/>)
             .toJSON();
         expect(tree).toMatchSnapshot();
     })
-    it('button without text', () => {
+    it('button no text', () => {
         const tree = renderer
             .create(<Button/>)
             .toJSON();

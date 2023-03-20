@@ -26,6 +26,30 @@ exports[`button tests button loading 1`] = `
 </button>
 `;
 
+exports[`button tests button no text 1`] = `
+<button
+  className="text text_type_button text_color_primary button undefined false "
+  type="button"
+>
+  <p
+    className="text undefined"
+  />
+</button>
+`;
+
+exports[`button tests button text 1`] = `
+<button
+  className="text text_type_button text_color_primary button undefined false "
+  type="button"
+>
+  <p
+    className="text undefined"
+  >
+    Текст кнопки
+  </p>
+</button>
+`;
+
 exports[`button tests button with text 1`] = `
 <button
   className="text text_type_button text_color_primary button undefined false "
