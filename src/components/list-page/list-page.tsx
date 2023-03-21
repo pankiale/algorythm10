@@ -234,14 +234,14 @@ export const ListPage: React.FC = () => {
                         onClick={onAddByIndex}
                         extraClass={styles.button_large}
                         isLoader={isLoader}
-                        disabled={!indexValue.length}
+                        disabled={!indexValue.length || +indexValue >= list.getSize() || +indexValue<0}
                     />
                     <Button
                         text='Удалить по индексу'
                         extraClass={styles.button_large}
                         onClick={onDeleteByIndex}
                         isLoader={isLoader}
-                        disabled={!indexValue.length}
+                        disabled={!indexValue.length || +indexValue >= list.getSize() || +indexValue<0}
                     />
             </form>
             <div className={styles.textbox}>

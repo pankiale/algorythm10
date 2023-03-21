@@ -17,9 +17,9 @@
 }
 
 .array {
-	position: absolute;
 	bottom: 26px;
 	max-width: 1240px;
+	height: 339px;
 	gap: 10px;
 	width: 100%;
 	padding: 0;

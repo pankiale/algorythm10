@@ -5,6 +5,7 @@ import {Input} from "../ui/input/input";
 import {Button} from "../ui/button/button";
 import {Circle} from "../ui/circle/circle";
 import {fib} from "./utils";
+import {SHORT_DELAY_IN_MS} from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
 
@@ -24,8 +25,9 @@ export const FibonacciPage: React.FC = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const value = Number(((e.currentTarget.elements.item(0) as HTMLInputElement)).value);
-    setNumber(oldValue => {const newValue = [...oldValue]; return fib(value)});
+    const value = ((e.currentTarget.elements.item(0) as HTMLInputElement)).value;
+    if (value.length === 0) return alert('Введите число от 1 до 19');
+    setNumber(oldValue => {const newValue = [...oldValue]; return fib(Number(value))});
     setIsLoader(true);
     clearForRerender();
   }
@@ -42,7 +44,7 @@ export const FibonacciPage: React.FC = () => {
               return newValue;
             });
 
-      }, 1000)
+      }, SHORT_DELAY_IN_MS)
       if (index === number.length) {
         setIsLoader(false);
         return clearTimeout(timeout)};
