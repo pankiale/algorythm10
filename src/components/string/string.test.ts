@@ -24,7 +24,6 @@ describe("string test", () => {
         for (let i = 0, k = evenStringStub.length - 1; i <= k; i++, k--) {
             swap(evenStringStub, {start: i, end: k});
         }
-        console.log(evenStringStub)
         expect(evenStringStub).toStrictEqual(expectedEvenValue);
     })
     it('string odd num of letters', () => {
