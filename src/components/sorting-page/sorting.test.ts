@@ -15,8 +15,8 @@ let arrayStub = [
 ];
 let expectedArray = [
     {item: 35, state: ElementStates.Default},
-    {item: 18, state: ElementStates.Default},
     {item: 26, state: ElementStates.Default},
+    {item: 18, state: ElementStates.Default},
     {item: 7, state: ElementStates.Default},
 ];
 beforeEach(() => {
